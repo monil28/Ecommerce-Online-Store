@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% block content %}
+{% if product.image %}
+    <figure class="image is-4by3 mb-6">
+        <img src="{{product.image.url}}">
+    </figure>
+{% endif %}
+<h1 class="title">{{product.title}}, ${{product.price}}</h1>
+<p>{{product.vendor.name}}</p>
+<p>{{product.description}}</p>
+
+<hr>
+
+<form action="." method="post">
+    {{csrf_token}}
+    <!-- {{form.as_p}} -->
+    <div class="field has-addons">
+        <div class="control">
+            <input type="number" name="quantity" value="1" class="input" min="1">
+        </div>
+        <div class="control">
+            <button class="button is-dark is-uppercase">Add to cart</button>
+        </div>
+    </div>
+</form>
+
+{% if similar_products %}
+    <hr>
+    <div class="columns is-multiline">
+        <div class="column is-12">
+            <h2 class="subtitle">Similar products</h2>
+        </div>
+        {% for product in similar_products %}
+            {% include 'product/list_item.html' %}
+        {% endfor %}
+{% endif %}
+
+{% endblock %}
